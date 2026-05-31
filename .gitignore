@@ -1,0 +1,66 @@
+# ==============================================================================
+# OS / Editor Files
+# ==============================================================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# ==============================================================================
+# Environment Variables
+# ==============================================================================
+.env
+.env.*
+!.env.example
+
+# ==============================================================================
+# 1. Frontend (React + Vite) & 2. Backend (Node.js + Express)
+# ==============================================================================
+node_modules/
+dist/
+build/
+.cache/
+*.log
+
+# Backend Uploads (Berdasarkan PRD: Local file system /public/uploads)
+public/uploads/
+uploads/
+
+# ==============================================================================
+# 3. AI Microservice & ML Model Development (Python + FastAPI)
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# ==============================================================================
+# Data & Large Model Files
+# ==============================================================================
+# Git tidak disarankan untuk melacak dataset besar dan file model biner.
+# (Gunakan Git LFS jika memang perlu dilacak)
+data/*.csv
+data/*.jsonl
+data/*.xlsx
+
+# File model berukuran besar (PyTorch, Scikit-learn, Safetensors)
+models/**/*.safetensors
+models/**/*.pkl
+models/**/*.pt
+models/**/*.pth
+models/**/*.bin
+models/**/*.h5
+
+# Pengecualian: Biarkan git melacak file konfigurasi JSON dan gambar visualisasi 
+# di dalam folder models
+!models/**/*.json
+!models/**/*.png

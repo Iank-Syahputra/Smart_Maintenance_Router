@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ReportStatus {
+  PENDING
+  DIPROSES
+  SELESAI
+}
+
+enum UrgencyLevel {
+  RENDAH
+  SEDANG
+  TINGGI
+}
+
+model Profile {
+  id           Int       @id @default(autoincrement())
+  namaLengkap  String
+  email        String    @unique
+  password     String
+  avatarUrl    String?
+  role         Role      @default(USER)
+  createdAt    DateTime  @default(now())
+
+  reports      Report[]
+  comments     Comment[]
+  upvotes      Upvote[]
+}
+
+model Report {
+  id              Int            @id @default(autoincrement())
+
+  authorId        Int
+  author          Profile        @relation(fields: [authorId], references: [id])
+
+  rawText         String         @db.Text
+  imageUrl        String
+
+  aiKategori      String
+  aiUrgensi       String
+  aiConfidence    Float
+
+  adminUrgensi    UrgencyLevel?
+  status          ReportStatus   @default(PENDING)
+
+  createdAt       DateTime       @default(now())
+
+  comments        Comment[]
+  upvotes         Upvote[]
+}
+
+model Comment {
+  id          Int       @id @default(autoincrement())
+
+  reportId    Int
+  authorId    Int
+
+  content     String    @db.Text
+  createdAt   DateTime  @default(now())
+
+  report      Report    @relation(fields: [reportId], references: [id])
+  author      Profile   @relation(fields: [authorId], references: [id])
+}
+
+model Upvote {
+  id          Int       @id @default(autoincrement())
+
+  reportId    Int
+  userId      Int
+
+  createdAt   DateTime  @default(now())
+
+  report      Report    @relation(fields: [reportId], references: [id])
+  user        Profile   @relation(fields: [userId], references: [id])
+
+  @@unique([reportId, userId])
+}

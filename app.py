@@ -1,5 +1,8 @@
 import streamlit as st
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "ai-service"))
 from KlasifikasiLaporan import KlasifikasiLaporan
+from pathlib import Path
 
 st.set_page_config(
     page_title="Smart Maintenance Router",
@@ -9,7 +12,8 @@ st.set_page_config(
 
 @st.cache_resource
 def load_model():
-    return KlasifikasiLaporan("models")
+    model_dir = Path(__file__).resolve().parent / "ai-service" / "models"
+    return KlasifikasiLaporan(str(model_dir))
 
 model = load_model()
 

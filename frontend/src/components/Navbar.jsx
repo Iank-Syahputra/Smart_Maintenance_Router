@@ -12,25 +12,25 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
+    <nav className="sticky top-0 z-40 gradient-nav border-b border-ocean shadow-nav">
+      <div className="max-w-[680px] mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <FileText size={16} className="text-white" />
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/10 border border-white/20">
+            <FileText size={18} className="text-white" />
           </div>
-          <span className="font-bold text-sm md:text-base text-gray-900 truncate">
+          <span className="font-display font-bold text-sm md:text-base text-white truncate tracking-wide">
             Smart Maintenance
           </span>
         </Link>
 
         {user ? (
           <div className="flex items-center gap-3">
-            <span className="hidden md:block text-sm text-gray-600">
+            <span className="hidden md:block text-sm font-medium text-ice">
               {user.namaLengkap}
             </span>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1 px-2 py-1.5 text-sm text-red-600 rounded-lg hover:bg-red-50"
+              className="flex items-center gap-1 px-3 py-1.5 text-sm text-ice rounded-lg hover:bg-white/10 transition-colors"
             >
               <LogOut size={16} />
               <span className="hidden md:inline">Keluar</span>
@@ -39,7 +39,7 @@ export default function Navbar() {
         ) : (
           <Link
             to="/login"
-            className="px-4 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+            className="px-4 py-1.5 text-sm font-medium text-navy bg-ice rounded-lg hover:bg-white transition-colors"
           >
             Masuk
           </Link>

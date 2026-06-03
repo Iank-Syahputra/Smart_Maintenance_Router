@@ -22,22 +22,8 @@ export default function BottomNav() {
       ];
 
   return (
-    <div style={{
-      position: "fixed",
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 9999,
-      backgroundColor: "#ffffff",
-      borderTop: "1px solid #e5e7eb",
-      boxShadow: "0 -2px 10px rgba(0,0,0,0.05)",
-    }}>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-around",
-        height: "64px",
-      }}>
+    <div className="fixed bottom-0 left-0 right-0 z-[9999] bg-white border-t border-sky shadow-[0_-2px_10px_rgba(0,119,182,0.08)]">
+      <div className="flex items-center justify-around h-16 max-w-[680px] mx-auto px-2">
         {items.map((item) => {
           const active = item.to === "/"
             ? pathname === "/"
@@ -46,26 +32,15 @@ export default function BottomNav() {
             <Link
               key={item.to}
               to={item.to}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "2px",
-                padding: "4px 12px",
-                minWidth: "64px",
-                textDecoration: "none",
-                color: active ? "#2563eb" : "#6b7280",
-              }}
+              className={`flex flex-col items-center gap-1 p-2 min-w-[64px] transition-colors rounded-xl ${
+                active ? "text-ocean" : "text-gray-400 hover:text-ocean/70"
+              }`}
             >
               <item.icon
                 size={22}
-                strokeWidth={active ? 2.5 : 1.5}
-                color={active ? "#2563eb" : "#6b7280"}
+                strokeWidth={active ? 2.5 : 2}
               />
-              <span style={{
-                fontSize: "10px",
-                fontWeight: 500,
-              }}>
+              <span className={`text-[10px] ${active ? 'font-bold' : 'font-medium'}`}>
                 {item.label}
               </span>
             </Link>

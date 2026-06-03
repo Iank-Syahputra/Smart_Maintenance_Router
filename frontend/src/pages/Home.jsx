@@ -46,26 +46,26 @@ export default function Home() {
   useSSE(handleSSEEvent);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 pb-24">
-      <div className="sticky top-14 z-30 bg-gray-50/95 backdrop-blur-sm pt-3 pb-2 -mx-4 px-4 border-b border-gray-100">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1 bg-white rounded-lg border border-gray-200 p-0.5">
+    <div className="max-w-[680px] mx-auto px-4 pb-24">
+      <div className="sticky top-16 z-30 bg-ice/95 backdrop-blur-sm pt-4 pb-3 -mx-4 px-4 border-b border-sky/40">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1 bg-white rounded-lg border border-sky p-1 shadow-sm">
             <button
               onClick={() => setSort("latest")}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition ${
-                sort === "latest" ? "bg-blue-600 text-white shadow-sm" : "text-gray-600 hover:text-gray-900"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13px] font-semibold transition-all ${
+                sort === "latest" ? "bg-ocean text-white shadow" : "text-ocean/70 hover:text-ocean hover:bg-sky/20"
               }`}
             >
-              <Clock size={14} />
+              <Clock size={14} strokeWidth={2.5} />
               Terbaru
             </button>
             <button
               onClick={() => setSort("trending")}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition ${
-                sort === "trending" ? "bg-blue-600 text-white shadow-sm" : "text-gray-600 hover:text-gray-900"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13px] font-semibold transition-all ${
+                sort === "trending" ? "bg-ocean text-white shadow" : "text-ocean/70 hover:text-ocean hover:bg-sky/20"
               }`}
             >
-              <TrendingUp size={14} />
+              <TrendingUp size={14} strokeWidth={2.5} />
               Trending
             </button>
           </div>
@@ -73,9 +73,9 @@ export default function Home() {
           <select
             value={filterKategori}
             onChange={(e) => setFilterKategori(e.target.value)}
-            className="text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-[13px] font-semibold text-navy border border-sky rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-ocean/30 shadow-sm"
           >
-            <option value="">Semua</option>
+            <option value="">Semua Divisi</option>
             <option value="IT">IT & Jaringan</option>
             <option value="MEP">Kelistrikan & AC</option>
             <option value="INFRA">Infrastruktur</option>
@@ -87,15 +87,15 @@ export default function Home() {
       {loading ? (
         <LoadingSpinner />
       ) : reports.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <Clock size={48} strokeWidth={1} />
-          <p className="mt-3 text-sm">Belum ada laporan kerusakan</p>
+        <div className="flex flex-col items-center justify-center py-20 text-ocean/50 animate-slideUp">
+          <Clock size={56} strokeWidth={1.5} />
+          <p className="mt-4 text-[15px] font-semibold text-navy">Belum ada laporan kerusakan</p>
           {user?.role !== "ADMIN" && (
             <>
-              <p className="text-xs mt-1">Jadilah yang pertama melapor!</p>
+              <p className="text-[13px] mt-1 text-ocean mb-6">Jadilah yang pertama melapor!</p>
               <button
                 onClick={() => navigate("/reports/new")}
-                className="mt-4 px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-6 py-2.5 bg-ocean text-white text-[15px] font-semibold rounded-[10px] hover:-translate-y-[1px] hover:bg-navy transition-all duration-150 shadow-md hover:shadow-lg"
               >
                 Buat Laporan
               </button>
@@ -103,9 +103,15 @@ export default function Home() {
           )}
         </div>
       ) : (
-        <div className="space-y-3 mt-3">
-          {reports.map((report) => (
-            <ReportCard key={report.id} report={report} />
+        <div className="space-y-4 mt-4">
+          {reports.map((report, idx) => (
+            <div 
+              key={report.id} 
+              className="animate-slideUp"
+              style={{ animationDelay: `${idx * 60}ms` }}
+            >
+              <ReportCard report={report} />
+            </div>
           ))}
         </div>
       )}

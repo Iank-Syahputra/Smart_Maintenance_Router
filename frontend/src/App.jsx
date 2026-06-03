@@ -15,7 +15,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 function AppLayout({ children }) {
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
+    <div className="min-h-screen bg-ice pb-16">
       <Navbar />
       <main>{children}</main>
       <BottomNav />

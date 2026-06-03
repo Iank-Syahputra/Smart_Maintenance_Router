@@ -1,14 +1,19 @@
+import { Monitor, Zap, Building2, Armchair } from "lucide-react";
+
 const config = {
-  IT: { label: "IT & Jaringan", bg: "bg-blue-100 text-blue-700 border-blue-300" },
-  MEP: { label: "Kelistrikan & AC", bg: "bg-red-100 text-red-700 border-red-300" },
-  INFRA: { label: "Infrastruktur", bg: "bg-amber-100 text-amber-700 border-amber-300" },
-  PERABOTAN: { label: "Perabotan", bg: "bg-purple-100 text-purple-700 border-purple-300" },
+  IT: { label: "IT & Jaringan", icon: Monitor },
+  MEP: { label: "Kelistrikan & AC", icon: Zap },
+  INFRA: { label: "Infrastruktur", icon: Building2 },
+  PERABOTAN: { label: "Perabotan", icon: Armchair },
 };
 
 export default function KategoriBadge({ kategori }) {
-  const c = config[kategori] || { label: kategori, bg: "bg-gray-100 text-gray-700" };
+  const c = config[kategori] || { label: kategori, icon: Monitor };
+  const Icon = c.icon;
+  
   return (
-    <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold border ${c.bg}`}>
+    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-mono font-medium text-white gradient-ai border-0">
+      <Icon size={12} strokeWidth={2.5} />
       {c.label}
     </span>
   );

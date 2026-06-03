@@ -10,28 +10,28 @@ export default function ReportCard({ report }) {
   return (
     <div
       onClick={() => navigate(`/reports/${report.id}`)}
-      className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden active:scale-[0.99] transition-transform cursor-pointer"
+      className="bg-white rounded-2xl border border-sky shadow-card hover:shadow-card-hover hover:border-cyan transition-all duration-200 cursor-pointer overflow-hidden active:scale-[0.99]"
     >
-      <div className="p-3 sm:p-4">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-              <span className="text-xs font-bold text-blue-600">
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-full bg-ice flex items-center justify-center flex-shrink-0 border border-sky">
+              <span className="text-sm font-bold text-ocean">
                 {report.author?.namaLengkap?.charAt(0) || "?"}
               </span>
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className="text-[15px] font-semibold text-navy truncate">
                 {report.author?.namaLengkap || "Unknown"}
               </p>
-              <p className="text-xs text-gray-500">{timeAgo}</p>
+              <p className="text-[13px] text-ocean">{timeAgo}</p>
             </div>
           </div>
           <StatusBadge status={report.status} />
         </div>
 
         {report.imageUrl && (
-          <div className="mb-3 rounded-lg overflow-hidden bg-gray-100">
+          <div className="mb-3 rounded-[12px] overflow-hidden bg-ice border border-sky/30">
             <img
               src={report.imageUrl}
               alt="Bukti kerusakan"
@@ -41,23 +41,27 @@ export default function ReportCard({ report }) {
           </div>
         )}
 
-        <p className="text-sm text-gray-800 leading-relaxed mb-3 line-clamp-3">
+        <p className="text-[15px] text-navy leading-relaxed mb-4 line-clamp-3">
           {report.rawText}
         </p>
 
         <div className="flex items-center justify-between flex-wrap gap-2">
           {report.aiKategori && <KategoriBadge kategori={report.aiKategori} />}
-          <div className="flex items-center gap-3 text-gray-500">
-            <span className="flex items-center gap-1 text-sm">
+          <div className="flex items-center gap-2">
+            <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-[1.5px] transition-colors ${
+              report.hasUpvoted
+                ? "bg-ocean text-white border-ocean"
+                : "bg-ice text-ocean border-sky"
+            }`}>
               <ThumbsUp
                 size={16}
-                className={report.hasUpvoted ? "fill-blue-600 text-blue-600" : ""}
+                strokeWidth={report.hasUpvoted ? 2.5 : 2}
               />
-              {report._count?.upvotes || 0}
+              <span className="text-[13px] font-semibold">{report._count?.upvotes || 0}</span>
             </span>
-            <span className="flex items-center gap-1 text-sm">
-              <MessageCircle size={16} />
-              {report._count?.comments || 0}
+            <span className="flex items-center gap-1.5 px-3 py-1.5 text-ocean">
+              <MessageCircle size={16} strokeWidth={2} />
+              <span className="text-[13px] font-semibold">{report._count?.comments || 0}</span>
             </span>
           </div>
         </div>

@@ -139,3 +139,84 @@ export const login = async (req, res) => {
 
   }
 };
+
+export const getMe = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const user =
+      await prisma.profile.findUnique({
+        where: {
+          id: req.user.id
+        },
+
+        select: {
+          id: true,
+          namaLengkap: true,
+          email: true,
+          avatarUrl: true,
+          role: true,
+          createdAt: true
+        }
+      });
+
+    res.json({
+      success: true,
+      user
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+
+  }
+
+};
+
+export const updateProfile =
+  async (req, res) => {
+
+    try {
+
+      const {
+        namaLengkap,
+        avatarUrl
+      } = req.body;
+
+      const user =
+        await prisma.profile.update({
+          where: {
+            id: req.user.id
+          },
+          data: {
+            namaLengkap,
+            avatarUrl
+          }
+        });
+
+      const {
+        password,
+        ...userWithoutPassword
+      } = user;
+
+      res.json({
+        success: true,
+        user: userWithoutPassword
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        success: false,
+        error: error.message
+      });
+
+    }
+
+};

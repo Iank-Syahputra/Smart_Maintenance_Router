@@ -4,6 +4,7 @@ import prisma from "./lib/prisma.js";
 import axios from "axios";
 import reportRoutes from "./routes/reportRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import path from "path";
 
 import { authenticate }
 from "./middleware/authMiddleware.js";
@@ -15,6 +16,16 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(
+  "/uploads",
+  express.static(
+    path.join(
+      process.cwd(),
+      "uploads"
+    )
+  )
+);
 
 app.get("/", (req, res) => {
   res.json({

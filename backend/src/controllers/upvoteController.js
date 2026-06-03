@@ -43,3 +43,46 @@ export const upvoteReport = async (req, res) => {
 
   }
 };
+
+export const removeUpvote = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+
+    const existingUpvote =
+      await prisma.upvote.findFirst({
+        where: {
+          reportId: Number(id),
+          userId: req.user.id
+        }
+      });
+
+    if (!existingUpvote) {
+      return res.status(404).json({
+        success: false,
+        message: "Upvote tidak ditemukan"
+      });
+    }
+
+    await prisma.upvote.delete({
+      where: {
+        id: existingUpvote.id
+      }
+    });
+
+    res.json({
+      success: true,
+      message: "Upvote berhasil dibatalkan"
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+
+  }
+};

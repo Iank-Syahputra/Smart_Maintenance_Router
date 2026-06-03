@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id          String   @id @default(uuid())
+  namaLengkap String
+  email       String   @unique
+  password    String
+  role        String   @default("PELAPOR")
+  avatarUrl   String?
+  createdAt   DateTime @default(now())
+
+  reports  Report[]
+  comments Comment[]
+  upvotes  Upvote[]
+}
+
+model Report {
+  id           String   @id @default(uuid())
+  authorId     String
+  rawText      String
+  imageUrl     String
+  aiKategori   String?
+  aiUrgensi    String?
+  aiConfidence Float?
+  adminUrgensi String?
+  status       String   @default("MENUNGGU")
+  createdAt    DateTime @default(now())
+
+  author   Profile  @relation(fields: [authorId], references: [id])
+  comments Comment[]
+  upvotes  Upvote[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  reportId  String
+  authorId  String
+  content   String
+  createdAt DateTime @default(now())
+
+  report Report  @relation(fields: [reportId], references: [id])
+  author Profile @relation(fields: [authorId], references: [id])
+}
+
+model Upvote {
+  id        String   @id @default(uuid())
+  reportId  String
+  userId    String
+  createdAt DateTime @default(now())
+
+  report Report  @relation(fields: [reportId], references: [id])
+  user   Profile @relation(fields: [userId], references: [id])
+
+  @@unique([reportId, userId])
+}

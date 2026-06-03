@@ -1,10 +1,10 @@
 import { Monitor, Zap, Building2, Armchair } from "lucide-react";
 
 const config = {
-  IT: { label: "IT & Jaringan", icon: Monitor },
-  MEP: { label: "Kelistrikan & AC", icon: Zap },
-  INFRA: { label: "Infrastruktur", icon: Building2 },
-  PERABOTAN: { label: "Perabotan", icon: Armchair },
+  IT: { label: "Teknologi Informasi dan Jaringan (IT)", icon: Monitor },
+  MEP: { label: "Kelistrikan dan Tata Udara (MEP)", icon: Zap },
+  INFRA: { label: "Infrastruktur dan Sipil", icon: Building2 },
+  PERABOTAN: { label: "Perabotan dan inventaris (Furniture)", icon: Armchair },
 };
 
 export default function KategoriBadge({ kategori }) {

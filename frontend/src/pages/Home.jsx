@@ -76,10 +76,10 @@ export default function Home() {
             className="text-[13px] font-semibold text-navy border border-sky rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-ocean/30 shadow-sm"
           >
             <option value="">Semua Divisi</option>
-            <option value="IT">IT & Jaringan</option>
-            <option value="MEP">Kelistrikan & AC</option>
-            <option value="INFRA">Infrastruktur</option>
-            <option value="PERABOTAN">Perabotan</option>
+            <option value="IT">Teknologi Informasi dan Jaringan (IT)</option>
+            <option value="MEP">Kelistrikan dan Tata Udara (MEP)</option>
+            <option value="INFRA">Infrastruktur dan Sipil</option>
+            <option value="PERABOTAN">Perabotan dan inventaris (Furniture)</option>
           </select>
         </div>
       </div>

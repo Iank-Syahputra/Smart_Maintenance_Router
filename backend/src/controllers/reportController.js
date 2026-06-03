@@ -8,11 +8,22 @@ async function predictWithAI(text) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text }),
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(20000), // Diperpanjang menjadi 20 detik untuk cold start
     });
-    if (!aiRes.ok) return null;
+    
+    if (!aiRes.ok) {
+      console.error(`[AI Service Error] HTTP ${aiRes.status}: ${aiRes.statusText}`);
+      const errText = await aiRes.text();
+      console.error(`[AI Service Response] ${errText}`);
+      return null;
+    }
+    
     return await aiRes.json();
-  } catch {
+  } catch (error) {
+    console.error(`[AI Service Fetch Error] ${error.name}: ${error.message}`);
+    if (error.name === 'TimeoutError') {
+      console.error("[AI Service] Model inference memakan waktu lebih dari 20 detik (Timeout).");
+    }
     return null;
   }
 }

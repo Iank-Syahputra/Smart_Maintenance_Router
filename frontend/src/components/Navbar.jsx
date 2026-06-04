@@ -1,14 +1,49 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Plus,
   User,
   LogOut,
   ChevronDown
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../api";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) return;
+
+        const response = await api.get("/auth/me");
+
+        setUser(response.data.user);
+      } catch (error) {
+        console.error("Failed to load user:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/login");
+  };
+
+  const avatar =
+    user?.avatarUrl && user.avatarUrl.trim() !== ""
+      ? user.avatarUrl.startsWith("http")
+        ? user.avatarUrl
+        : `http://localhost:5000${user.avatarUrl}`
+      : "https://i.pravatar.cc/100";
 
   return (
     <nav
@@ -29,7 +64,6 @@ export default function Navbar() {
           to="/"
           className="flex items-center gap-3"
         >
-
           <div
             className="
             flex
@@ -60,7 +94,6 @@ export default function Navbar() {
               FMIPA Universitas Halu Oleo
             </p>
           </div>
-
         </Link>
 
         {/* Right Side */}
@@ -109,9 +142,8 @@ export default function Navbar() {
               hover:shadow-md
               "
             >
-
               <img
-                src="https://i.pravatar.cc/100"
+                src={avatar}
                 alt="avatar"
                 className="h-11 w-11 rounded-full object-cover"
               />
@@ -120,7 +152,6 @@ export default function Navbar() {
                 size={16}
                 className="text-slate-500"
               />
-
             </button>
 
             {open && (
@@ -138,15 +169,14 @@ export default function Navbar() {
                 shadow-xl
                 "
               >
-
                 <div className="border-b border-slate-200 p-4">
 
                   <p className="font-semibold text-slate-900">
-                    User Name
+                    {user?.namaLengkap || "User"}
                   </p>
 
                   <p className="text-sm text-slate-500">
-                    user@student.uho.ac.id
+                    {user?.email || "-"}
                   </p>
 
                 </div>
@@ -168,10 +198,11 @@ export default function Navbar() {
                   Profile
                 </Link>
 
-                <Link
-                  to="/login"
+                <button
+                  onClick={handleLogout}
                   className="
                   flex
+                  w-full
                   items-center
                   gap-3
                   px-4
@@ -183,7 +214,7 @@ export default function Navbar() {
                 >
                   <LogOut size={18} />
                   Logout
-                </Link>
+                </button>
 
               </div>
             )}

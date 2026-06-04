@@ -212,6 +212,12 @@ export const getReportById = async (req, res) => {
                 }
             },
 
+            upvotes: {
+              select: {
+                userId: true
+              }
+            },
+
             comments: {
                 include: {
                 author: {

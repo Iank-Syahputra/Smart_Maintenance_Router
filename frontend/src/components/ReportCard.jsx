@@ -7,21 +7,33 @@ import {
 import { Link } from "react-router-dom";
 
 export default function ReportCard({ report }) {
+
+  const statusStyle = {
+    Pending:
+      "border-slate-200 bg-slate-100 text-slate-700",
+
+    Diproses:
+      "border-amber-200 bg-amber-100 text-amber-700",
+
+    Selesai:
+      "border-green-200 bg-green-100 text-green-700",
+  };
+
   return (
     <Link to={`/report/${report.id}`}>
 
       <article
         className="
         overflow-hidden
-        rounded-lg
+        rounded-2xl
         border
-        border-slate-800
-        bg-slate-900
+        border-slate-200
+        bg-white
+        shadow-sm
         transition-all
         duration-300
-        hover:border-slate-700
-        hover:bg-slate-800/80
-        hover:shadow-lg
+        hover:-translate-y-1
+        hover:shadow-xl
         "
       >
 
@@ -31,7 +43,7 @@ export default function ReportCard({ report }) {
           src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
           alt="report"
           className="
-          h-48
+          h-56
           w-full
           object-cover
           "
@@ -45,10 +57,10 @@ export default function ReportCard({ report }) {
 
           <h3
             className="
-            mb-3
+            mb-4
             text-xl
             font-semibold
-            text-white
+            text-slate-900
             "
           >
             {report.title}
@@ -56,34 +68,37 @@ export default function ReportCard({ report }) {
 
           {/* Badges */}
 
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="mb-5 flex flex-wrap gap-2">
 
             <span
               className="
-              rounded-md
+              rounded-full
               border
-              border-blue-900
-              bg-blue-950
+              border-amber-200
+              bg-amber-100
               px-3
               py-1
               text-xs
-              text-blue-300
+              font-medium
+              text-amber-700
               "
             >
               MEP
             </span>
 
             <span
-              className="
-              rounded-md
+              className={`
+              rounded-full
               border
-              border-orange-900
-              bg-orange-950
               px-3
               py-1
               text-xs
-              text-orange-300
-              "
+              font-medium
+              ${
+                statusStyle[report.status] ||
+                "border-slate-200 bg-slate-100 text-slate-700"
+              }
+              `}
             >
               {report.status}
             </span>
@@ -98,12 +113,12 @@ export default function ReportCard({ report }) {
             items-center
             justify-between
             border-t
-            border-slate-800
+            border-slate-200
             pt-4
             "
           >
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-6">
 
               <button
                 onClick={(e) => e.preventDefault()}
@@ -111,14 +126,14 @@ export default function ReportCard({ report }) {
                 flex
                 items-center
                 gap-2
-                text-slate-300
-                transition
-                hover:text-blue-400
+                text-slate-600
+                transition-all
+                hover:text-amber-600
                 "
               >
                 <ArrowBigUp size={20} />
 
-                <span>
+                <span className="font-medium">
                   {report.votes}
                 </span>
               </button>
@@ -128,7 +143,7 @@ export default function ReportCard({ report }) {
                 flex
                 items-center
                 gap-2
-                text-slate-400
+                text-slate-500
                 "
               >
                 <MessageCircle size={18} />
@@ -150,7 +165,10 @@ export default function ReportCard({ report }) {
               "
             >
               <Clock3 size={15} />
-              <span>2 jam lalu</span>
+
+              <span>
+                2 jam lalu
+              </span>
             </div>
 
           </div>

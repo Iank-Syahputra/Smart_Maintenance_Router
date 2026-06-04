@@ -11,27 +11,56 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+    <nav
+      className="
+      sticky
+      top-0
+      z-50
+      border-b
+      border-slate-200
+      bg-white/90
+      backdrop-blur-xl
+      "
+    >
+      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6">
 
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-4"
+          className="flex items-center gap-3"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 font-bold text-white shadow-[0_0_25px_rgba(59,130,246,0.45)]">
-            SM
+
+          <div
+            className="
+            flex
+            h-20
+            w-20
+            items-center
+            justify-center
+            overflow-hidden
+            "
+          >
+            <img
+              src="/logo.png"
+              alt="Smart Maintenance Router"
+              className="
+              h-full
+              w-full
+              object-contain
+              "
+            />
           </div>
 
           <div>
-            <h1 className="text-xl font-bold text-white">
+            <h1 className="text-xl font-bold text-slate-900">
               Smart Maintenance Router
             </h1>
 
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-500">
               FMIPA Universitas Halu Oleo
             </p>
           </div>
+
         </Link>
 
         {/* Right Side */}
@@ -39,7 +68,22 @@ export default function Navbar() {
 
           <Link
             to="/create"
-            className="flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 font-semibold text-white shadow-[0_0_20px_rgba(59,130,246,0.45)] transition-all duration-300 hover:scale-105 hover:bg-blue-500"
+            className="
+            flex
+            items-center
+            gap-2
+            rounded-full
+            bg-amber-500
+            px-6
+            py-3
+            font-semibold
+            text-white
+            transition-all
+            duration-300
+            hover:scale-105
+            hover:bg-amber-400
+            hover:shadow-[0_0_25px_rgba(245,158,11,0.45)]
+            "
           >
             <Plus size={18} />
             Create Report
@@ -49,8 +93,23 @@ export default function Navbar() {
 
             <button
               onClick={() => setOpen(!open)}
-              className="flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 pl-1 pr-3 py-1 transition hover:border-blue-500"
+              className="
+              flex
+              items-center
+              gap-2
+              rounded-full
+              border
+              border-slate-300
+              bg-white
+              pl-1
+              pr-3
+              py-1
+              transition
+              hover:border-amber-400
+              hover:shadow-md
+              "
             >
+
               <img
                 src="https://i.pravatar.cc/100"
                 alt="avatar"
@@ -59,26 +118,51 @@ export default function Navbar() {
 
               <ChevronDown
                 size={16}
-                className="text-slate-400"
+                className="text-slate-500"
               />
+
             </button>
 
             {open && (
-              <div className="absolute right-0 mt-3 w-60 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-2xl">
+              <div
+                className="
+                absolute
+                right-0
+                mt-3
+                w-60
+                overflow-hidden
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                shadow-xl
+                "
+              >
 
-                <div className="border-b border-slate-800 p-4">
-                  <p className="font-semibold text-white">
+                <div className="border-b border-slate-200 p-4">
+
+                  <p className="font-semibold text-slate-900">
                     User Name
                   </p>
 
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-slate-500">
                     user@student.uho.ac.id
                   </p>
+
                 </div>
 
                 <Link
                   to="/profile"
-                  className="flex items-center gap-3 px-4 py-3 transition hover:bg-slate-800"
+                  className="
+                  flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  text-slate-700
+                  transition
+                  hover:bg-slate-100
+                  "
                 >
                   <User size={18} />
                   Profile
@@ -86,7 +170,16 @@ export default function Navbar() {
 
                 <Link
                   to="/login"
-                  className="flex items-center gap-3 px-4 py-3 text-red-400 transition hover:bg-slate-800"
+                  className="
+                  flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  text-red-500
+                  transition
+                  hover:bg-red-50
+                  "
                 >
                   <LogOut size={18} />
                   Logout

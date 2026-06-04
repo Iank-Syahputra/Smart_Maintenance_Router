@@ -173,7 +173,7 @@ export default function ReportCard({ report }) {
                     <ArrowBigUp size={20} />
 
                     <span className="font-medium">
-                      {report._count?.upvotes || 0}
+                      {report.votes || 0}
                     </span>
                   </button>
 
@@ -188,7 +188,7 @@ export default function ReportCard({ report }) {
                     <MessageCircle size={18} />
 
                     <span>
-                      {report._count?.comments || 0}
+                      {report.commentsCount || 0}
                     </span>
                   </div>
                 </div>

@@ -1,8 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
-
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -50,7 +48,9 @@ model Report {
 
   aiKategori      String
   aiUrgensi       String
-  aiConfidence    Float
+
+  confidenceKategori    Float
+  confidenceUrgensi     Float
 
   adminUrgensi    UrgencyLevel?
   status          ReportStatus   @default(PENDING)

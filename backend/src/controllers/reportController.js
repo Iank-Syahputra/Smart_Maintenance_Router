@@ -96,7 +96,7 @@ export const getAllReports = async (req, res) => {
 
         upvotes: {
           select: {
-            id: true
+            userId: true
           }
         },
 

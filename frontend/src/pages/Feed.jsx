@@ -17,6 +17,8 @@ export default function Feed() {
         setLoading(true);
         const response = await api.get("/reports");
 
+        const user = JSON.parse(localStorage.getItem("user"));
+
         const mappedReports = response.data.reports.map(
           (report) => ({
             id: report.id,
@@ -28,6 +30,9 @@ export default function Feed() {
                   .toLowerCase()
               : report.aiUrgensi,
             votes: report._count?.upvotes || 0,
+            hasUpvoted: user
+              ? report.upvotes?.some((upvote) => upvote.userId === user.id)
+              : false,
             status:
               report.status === "SELESAI"
                 ? "Selesai"

@@ -1,12 +1,41 @@
+import { useState } from "react";
+
 import {
   MessageCircle,
   ArrowBigUp,
   Clock3,
 } from "lucide-react";
 
+import api from "../api";
+
 import { Link } from "react-router-dom";
 
 export default function ReportCard({ report }) {
+  const [votes, setVotes] = useState(report.votes || 0);
+
+  const [hasUpvoted, setHasUpvoted] = useState(report.hasUpvoted || false);
+
+  const handleUpvote = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      if (hasUpvoted) {
+        await api.delete(`/reports/${report.id}/upvote`);
+        setVotes((prev) => Math.max(prev - 1, 0));
+        setHasUpvoted(false);
+      } else {
+        await api.post(`/reports/${report.id}/upvote`);
+        setVotes((prev) => prev + 1);
+        setHasUpvoted(true);
+      }
+    } catch (error) {
+      console.error("Gagal melakukan upvote:", error);
+    }
+  };
+
+
+
   const statusStyle = {
     PENDING:
       "border-slate-200 bg-slate-100 text-slate-700",
@@ -158,9 +187,7 @@ export default function ReportCard({ report }) {
               >
                 <div className="flex items-center gap-6">
                   <button
-                    onClick={(e) =>
-                      e.preventDefault()
-                    }
+                    onClick={handleUpvote}
                     className="
                     flex
                     items-center
@@ -170,10 +197,13 @@ export default function ReportCard({ report }) {
                     hover:text-amber-600
                     "
                   >
-                    <ArrowBigUp size={20} />
+                    <ArrowBigUp 
+                    size={20} 
+                    className={hasUpvoted ? "text-green-600" : "text-slate-600"}
+                    />
 
                     <span className="font-medium">
-                      {report.votes || 0}
+                      {votes}
                     </span>
                   </button>
 

@@ -1,27 +1,64 @@
 import {
   MessageCircle,
   ArrowBigUp,
-  Clock3
+  Clock3,
 } from "lucide-react";
 
 import { Link } from "react-router-dom";
 
 export default function ReportCard({ report }) {
-
   const statusStyle = {
-    Pending:
+    PENDING:
       "border-slate-200 bg-slate-100 text-slate-700",
 
-    Diproses:
+    DIPROSES:
       "border-amber-200 bg-amber-100 text-amber-700",
 
-    Selesai:
+    SELESAI:
       "border-green-200 bg-green-100 text-green-700",
   };
 
+  const formatStatus = (status) => {
+    switch (status) {
+      case "PENDING":
+        return "Pending";
+      case "DIPROSES":
+        return "Diproses";
+      case "SELESAI":
+        return "Selesai";
+      default:
+        return status;
+    }
+  };
+
+  const truncateText = (text, maxLength = 80) => {
+    if (!text) return "";
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
+  };
+
+  const imageUrl =
+    report?.imageUrl &&
+    report.imageUrl !== "no-image"
+      ? report.imageUrl.startsWith("http")
+        ? report.imageUrl
+        : `http://localhost:5000${report.imageUrl}`
+      : "https://placehold.co/300x300/e2e8f0/64748b?text=No+Image";
+
+  const createdAt = report?.createdAt
+    ? new Date(report.createdAt).toLocaleDateString(
+        "id-ID",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }
+      )
+    : "-";
+
   return (
     <Link to={`/report/${report.id}`}>
-
       <article
         className="
         overflow-hidden
@@ -36,147 +73,146 @@ export default function ReportCard({ report }) {
         hover:shadow-xl
         "
       >
-
-        {/* Image */}
-
-        <img
-          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
-          alt="report"
-          className="
-          h-56
-          w-full
-          object-cover
-          "
-        />
-
-        {/* Content */}
-
-        <div className="p-5">
-
-          {/* Title */}
-
-          <h3
-            className="
-            mb-4
-            text-xl
-            font-semibold
-            text-slate-900
-            "
-          >
-            {report.title}
-          </h3>
-
-          {/* Badges */}
-
-          <div className="mb-5 flex flex-wrap gap-2">
-
-            <span
-              className="
-              rounded-full
-              border
-              border-amber-200
-              bg-amber-100
-              px-3
-              py-1
-              text-xs
-              font-medium
-              text-amber-700
-              "
-            >
-              MEP
-            </span>
-
-            <span
-              className={`
-              rounded-full
-              border
-              px-3
-              py-1
-              text-xs
-              font-medium
-              ${
-                statusStyle[report.status] ||
-                "border-slate-200 bg-slate-100 text-slate-700"
-              }
-              `}
-            >
-              {report.status}
-            </span>
-
-          </div>
-
-          {/* Footer */}
-
+        <div className="flex">
+          {/* Image */}
           <div
             className="
-            flex
-            items-center
-            justify-between
-            border-t
-            border-slate-200
-            pt-4
+            h-44
+            w-44
+            flex-shrink-0
+            overflow-hidden
             "
           >
+            <img
+              src={imageUrl}
+              alt="report"
+              className="
+              h-full
+              w-full
+              object-cover
+              "
+            />
+          </div>
 
-            <div className="flex items-center gap-6">
+          {/* Content */}
+          <div className="flex flex-1 flex-col p-5">
+            {/* Title */}
+            <h3
+              className="
+              mb-3
+              text-lg
+              font-semibold
+              text-slate-900
+              "
+            >
+              {truncateText(report.rawText)}
+            </h3>
 
-              <button
-                onClick={(e) => e.preventDefault()}
+            {/* Badges */}
+            <div className="mb-4 flex flex-wrap gap-2">
+              <span
                 className="
-                flex
-                items-center
-                gap-2
-                text-slate-600
-                transition-all
-                hover:text-amber-600
+                rounded-full
+                border
+                border-amber-200
+                bg-amber-100
+                px-3
+                py-1
+                text-xs
+                font-medium
+                text-amber-700
                 "
               >
-                <ArrowBigUp size={20} />
+                {report.aiKategori}
+              </span>
 
-                <span className="font-medium">
-                  {report.votes}
-                </span>
-              </button>
+              <span
+                className={`
+                rounded-full
+                border
+                px-3
+                py-1
+                text-xs
+                font-medium
+                ${
+                  statusStyle[report.status] ||
+                  "border-slate-200 bg-slate-100 text-slate-700"
+                }
+                `}
+              >
+                {formatStatus(report.status)}
+              </span>
+            </div>
 
+            {/* Footer */}
+            <div className="mt-auto">
               <div
                 className="
                 flex
                 items-center
-                gap-2
-                text-slate-500
+                justify-between
+                border-t
+                border-slate-200
+                pt-4
                 "
               >
-                <MessageCircle size={18} />
+                <div className="flex items-center gap-6">
+                  <button
+                    onClick={(e) =>
+                      e.preventDefault()
+                    }
+                    className="
+                    flex
+                    items-center
+                    gap-2
+                    text-slate-600
+                    transition-all
+                    hover:text-amber-600
+                    "
+                  >
+                    <ArrowBigUp size={20} />
 
-                <span>
-                  15
-                </span>
+                    <span className="font-medium">
+                      {report._count?.upvotes || 0}
+                    </span>
+                  </button>
+
+                  <div
+                    className="
+                    flex
+                    items-center
+                    gap-2
+                    text-slate-500
+                    "
+                  >
+                    <MessageCircle size={18} />
+
+                    <span>
+                      {report._count?.comments || 0}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  className="
+                  flex
+                  items-center
+                  gap-2
+                  text-sm
+                  text-slate-500
+                  "
+                >
+                  <Clock3 size={15} />
+
+                  <span>
+                    {createdAt}
+                  </span>
+                </div>
               </div>
-
             </div>
-
-            <div
-              className="
-              flex
-              items-center
-              gap-2
-              text-sm
-              text-slate-500
-              "
-            >
-              <Clock3 size={15} />
-
-              <span>
-                2 jam lalu
-              </span>
-            </div>
-
           </div>
-
         </div>
-
       </article>
-
     </Link>
   );
 }

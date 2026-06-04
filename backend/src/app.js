@@ -4,6 +4,7 @@ import prisma from "./lib/prisma.js";
 import axios from "axios";
 import reportRoutes from "./routes/reportRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import path from "path";
 
 import { authenticate }
@@ -91,5 +92,7 @@ app.get(
 app.use("/reports", reportRoutes);
 
 app.use("/auth", authRoutes);
+
+app.use("/users", userRoutes);
 
 export default app;

@@ -1,6 +1,54 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    setError("");
+
+    try {
+      setLoading(true);
+
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
+
+      const token =
+        response.data.token ||
+        response.data.accessToken ||
+        response.data.data?.token;
+
+      if (!token) {
+        throw new Error("Token tidak ditemukan pada response.");
+      }
+
+      localStorage.setItem("token", token);
+
+      navigate("/");
+    } catch (err) {
+      console.error("Login error:", err);
+
+      setError(
+        err.response?.data?.message ||
+          err.response?.data?.error ||
+          "Email atau password salah."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className="
@@ -12,7 +60,6 @@ export default function Login() {
       px-4
       "
     >
-
       <div
         className="
         w-full
@@ -25,9 +72,7 @@ export default function Login() {
         shadow-lg
         "
       >
-
         <div className="mb-8 text-center">
-
           <div
             className="
             mx-auto
@@ -67,14 +112,20 @@ export default function Login() {
           >
             Login to continue
           </p>
-
         </div>
 
-        <form className="space-y-4">
-
+        <form
+          className="space-y-4"
+          onSubmit={handleLogin}
+        >
           <input
             type="email"
             placeholder="Email"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+            required
             className="
             w-full
             rounded-xl
@@ -91,6 +142,11 @@ export default function Login() {
           <input
             type="password"
             placeholder="Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            required
             className="
             w-full
             rounded-xl
@@ -104,7 +160,25 @@ export default function Login() {
             "
           />
 
+          {error && (
+            <div
+              className="
+              rounded-xl
+              border
+              border-red-200
+              bg-red-50
+              p-3
+              text-sm
+              text-red-600
+              "
+            >
+              {error}
+            </div>
+          )}
+
           <button
+            type="submit"
+            disabled={loading}
             className="
             w-full
             rounded-xl
@@ -117,15 +191,15 @@ export default function Login() {
             hover:bg-amber-400
             hover:shadow-lg
             hover:shadow-amber-300/50
+            disabled:cursor-not-allowed
+            disabled:opacity-70
             "
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
-
         </form>
 
         <div className="mt-6 text-center">
-
           <p className="text-sm text-slate-500">
             Belum punya akun?
           </p>
@@ -142,7 +216,6 @@ export default function Login() {
           >
             Register
           </Link>
-
         </div>
 
         <p
@@ -155,9 +228,7 @@ export default function Login() {
         >
           FMIPA Universitas Halu Oleo
         </p>
-
       </div>
-
     </div>
   );
 }
